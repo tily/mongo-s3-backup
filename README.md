@@ -49,6 +49,7 @@ $ bundle exec thor backup -d 20170210.gz
 
 ## TODO
 
+* write tests
 * NIFTYCloud ObjectStorage
 * test with no prefix
 * username and password

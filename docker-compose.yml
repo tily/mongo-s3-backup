@@ -1,0 +1,10 @@
+version: "2"
+services:
+  mongo:
+    image: mongo
+  app:
+    build: .
+    entrypoint: tail
+    command: -f /dev/null
+    volumes:
+      - ./:/usr/local/app/

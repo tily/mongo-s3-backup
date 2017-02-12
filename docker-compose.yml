@@ -2,6 +2,12 @@ version: "2"
 services:
   mongo:
     image: mongo
+  s3:
+    build: .
+    entrypoint: fakes3
+    ports:
+      - 3000
+    command: -r /tmp -p 3000
   app:
     build: .
     entrypoint: tail

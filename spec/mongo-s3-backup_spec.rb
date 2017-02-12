@@ -1,4 +1,4 @@
-require "aws-sdk"
+Bundler.require("default", "development")
 
 RSpec.describe "mongo-s3-backup", :type => :aruba do
   def s3
@@ -71,6 +71,24 @@ RSpec.describe "mongo-s3-backup", :type => :aruba do
         expect(`bundle exec thor backup -l`.chomp).to eq(Time.now.strftime("%Y%m%d.gz"))
         system "bundle exec thor backup -d #{Time.now.strftime("%Y%m%d.gz")}"
         expect(`bundle exec thor backup --list`).to eq("")
+      end
+    end
+
+    context "Restore" do
+      it "restores from backup" do
+        client = Mongo::Client.new("mongodb://#{ENV["MONGO_HOST"]}/test")
+        collection = client["collection"]
+
+        collection.insert_one({"hello" => "world"})
+
+        system "bundle exec thor backup --once"
+
+        collection.delete_one({"hello" => "world"})
+        expect(collection.find().to_a.size).to eq(0)
+
+        system "bundle exec thor restore #{Time.now.strftime("%Y%m%d.gz")}"
+        expect(collection.find().to_a.size).to eq(1)
+        expect(collection.find().first["hello"]).to eq("world")
       end
     end
   end

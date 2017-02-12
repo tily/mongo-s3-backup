@@ -52,8 +52,8 @@ $ bundle exec thor backup -d 20170210.gz
 You can setup and login to development environment as follows:
 
 ```
-make development
-docker-compose exec app bash
+$ make development
+$ docker-compose exec app bash
 ```
 
 ## Links

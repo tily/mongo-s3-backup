@@ -44,5 +44,34 @@ RSpec.describe "mongo-s3-backup", :type => :aruba do
         end
       end
     end
+
+    context "List" do
+      it "shows empty string when there are no backups" do
+        expect(`bundle exec thor backup --list`).to eq("")
+      end
+
+      it "shows one backup when there are only one backup" do
+        system "bundle exec thor backup --once"
+        expect(`bundle exec thor backup -l`.chomp).to eq(Time.now.strftime("%Y%m%d.gz"))
+      end
+
+      it "shows multiple backups when there are multiple backups" do
+        system "bundle exec thor backup --once"
+        system "bundle exec thor backup --once --now #{(Time.now + 60 * 60 * 24).strftime("%Y%m%d")}"
+        expect(`bundle exec thor backup -l`.chomp.split("\n")).to eq([
+          Time.now.strftime("%Y%m%d.gz"),
+          (Time.now + 60 * 60 * 24).strftime("%Y%m%d.gz"),
+        ])
+      end
+    end
+
+    context "Delete" do
+      it "removes backup" do
+        system "bundle exec thor backup --once"
+        expect(`bundle exec thor backup -l`.chomp).to eq(Time.now.strftime("%Y%m%d.gz"))
+        system "bundle exec thor backup -d #{Time.now.strftime("%Y%m%d.gz")}"
+        expect(`bundle exec thor backup --list`).to eq("")
+      end
+    end
   end
 end

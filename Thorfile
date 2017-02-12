@@ -81,11 +81,22 @@ class Default < Thor
     end
 
     def s3
-      @s3 ||= Aws::S3::Resource.new
+      @s3 ||= Aws::S3::Resource.new(s3_options)
     end
 
     def s3_bucket
       @s3_bucket ||= s3.bucket(ENV["S3_BUCKET"])
+    end
+
+    def s3_options
+      options = {signature_version: "s3"}
+      if ENV["AWS_REGION"]
+        options[:region] = ENV["AWS_REGION"]
+      else
+        options[:region] = "dummy"
+        options[:endpoint] = ENV["S3_ENDPOINT"]
+      end
+      options
     end
 
     def logger

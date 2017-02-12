@@ -5,4 +5,5 @@ gem "chrono"
 group :development do
   gem "rspec"
   gem "fakes3"
+  gem "mongo"
 end

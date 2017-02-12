@@ -47,6 +47,15 @@ Delete backup:
 $ bundle exec thor backup -d 20170210.gz
 ```
 
+## How to develop
+
+You can setup and login to development environment as follows:
+
+```
+make development
+docker-compose exec app bash
+```
+
 ## Links
 
 * [Makefile の書き方 \(C 言語\) — WTOPIA v1\.0 documentation](http://www.ie.u-ryukyu.ac.jp/~e085739/c.makefile.tuts.html)

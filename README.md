@@ -47,15 +47,6 @@ Delete backup:
 $ bundle exec thor backup -d 20170210.gz
 ```
 
-## TODO
-
-* write tests
-* NIFTYCloud ObjectStorage
-* test with no prefix
-* username and password
-* make BACKUP_SCHEDULE daily
-* check env vars
-
 ## Links
 
 * [Makefile の書き方 \(C 言語\) — WTOPIA v1\.0 documentation](http://www.ie.u-ryukyu.ac.jp/~e085739/c.makefile.tuts.html)

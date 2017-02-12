@@ -31,12 +31,12 @@ RSpec.describe "mongo-s3-backup", :type => :aruba do
 
   context "Backup" do
     context "Once" do
-      it "Backups" do
+      it "backups" do
         system "bundle exec thor backup --once"
         expect(`bundle exec thor backup -l`.chomp).to eq(Time.now.strftime("%Y%m%d.gz"))
       end
 
-      it "Rotates" do
+      it "rotates backups" do
         1.upto(ENV["BACKUP_NUM"].to_i + 1) do |i|
           now = Time.now + (i-1) * 60 * 60 * 24
           system "bundle exec thor backup --once --now #{now.strftime("%Y%m%d")}"

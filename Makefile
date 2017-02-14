@@ -1,15 +1,20 @@
 development:
-	docker run --rm -i -v $(PWD)/Dockerfile.erb:/Dockerfile.erb:ro \
-		ruby:alpine erb -U -T 1 environment=development \
-		/Dockerfile.erb > Dockerfile
+	make dockerfile environment=development
 	docker-compose build
 	docker-compose up -d
 
-production:
-	docker run --rm -i -v $(PWD)/Dockerfile.erb:/Dockerfile.erb:ro \
-		ruby:alpine erb -U -T 1 environment=production \
-		/Dockerfile.erb > Dockerfile
+test:
+	make dockerfile environment=development
+	docker-compose build
+	docker-compose exec app rspec
+	docker-compose up -d
 
-publish:
+production:
+	make dockerfile environment=production
 	docker build -t tily/mongo-s3-backup .
 	docker push tily/mongo-s3-backup
+
+dockerfile:
+	docker run --rm -i -v $(PWD)/Dockerfile.erb:/Dockerfile.erb:ro \
+		ruby:alpine erb -U -T 1 environment=${environment} \
+		/Dockerfile.erb > Dockerfile

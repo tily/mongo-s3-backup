@@ -6,8 +6,9 @@ development:
 test:
 	make dockerfile environment=development
 	docker-compose build
-	docker-compose exec app rspec
 	docker-compose up -d
+	docker-compose exec app rspec
+	docker-compose down
 
 production:
 	make dockerfile environment=production

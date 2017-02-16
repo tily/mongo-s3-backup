@@ -50,7 +50,7 @@ RSpec.describe "mongo-s3-backup" do
         expect(`bundle exec thor backup --list`).to eq("")
       end
 
-      it "shows one backup when there are only one backup" do
+      it "shows one backup when there is only one backup" do
         system "bundle exec thor backup --once"
         expect(`bundle exec thor backup -l`.chomp).to eq(Time.now.strftime("%Y%m%d.gz"))
       end

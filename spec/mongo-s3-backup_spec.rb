@@ -1,6 +1,6 @@
 Bundler.require("default", "development")
 
-RSpec.describe "mongo-s3-backup", :type => :aruba do
+RSpec.describe "mongo-s3-backup" do
   def s3
     @s3 ||= Aws::S3::Resource.new(region: "dummy", endpoint: ENV["S3_ENDPOINT"])
   end
